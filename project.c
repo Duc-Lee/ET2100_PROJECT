@@ -174,23 +174,6 @@ int isInMinHeap(min_heap *minheap, int dinh) {
     return minheap->vitri[dinh] < minheap->kich_thuoc;
 }
 
-//-------------------- Giai phong vung nho------------//
-// Hàm giải phóng bộ nhớ của đồ thị
-void giaiPhongDoThi(Dothi* doThi) {
-    if (doThi == NULL) return;
-
-    for (int i = 0; i < doThi->so_dinh; i++) {
-        node* hienTai = doThi->danh_sach_ke[i];
-        while (hienTai != NULL) {
-            node* temp = hienTai;
-            hienTai = hienTai->next;
-            free(temp);
-        }
-    }
-    free(doThi->danh_sach_ke);
-    free(doThi);
-}
-
 // Hàm giải phóng bộ nhớ của MinHeap
 void giaiPhongMinHeap(min_heap* minHeap) {
     if (minHeap == NULL) return;
@@ -252,6 +235,23 @@ void inDuongDi(int parent[], int j, char* tenToaNha[]) {
     printf(" -> %s", tenToaNha[j]);
 }
 
+//-------------------- Giai phong vung nho------------//
+// Hàm giải phóng bộ nhớ của đồ thị
+void giaiPhongDoThi(Dothi* doThi) {
+    if (doThi == NULL) return;
+
+    for (int i = 0; i < doThi->so_dinh; i++) {
+        node* hienTai = doThi->danh_sach_ke[i];
+        while (hienTai != NULL) {
+            node* temp = hienTai;
+            hienTai = hienTai->next;
+            free(temp);
+        }
+    }
+    free(doThi->danh_sach_ke);
+    free(doThi);
+}
+
 //--------- Thong tin khoang cach giua cac toa----------//
 typedef struct {
     const char *toa1;
@@ -260,22 +260,12 @@ typedef struct {
 } Canh;
 
 Canh ds_canh[] = {
-    {"D3", "D3-5", 40},
-    {"D3-5", "D5", 60},
-    {"D5", "D7", 50},
-    {"D7", "D9", 100},
-    {"D9", "B1", 120},
-    {"B1", "TC", 80},
-    {"TC","D3",200},
-    {"TC", "ThuVien", 200},
-    {"ThuVien", "C7", 150},
-    {"C7", "C2", 70},
-    {"C2", "B3", 90},
-    {"B3", "D3", 100},  
-    {"D7", "TC", 110},  
-    {"B1", "C7", 95},  
-    {"D5", "B3", 130},  
-    {"C2", "D3-5", 80}  
+    {"D3", "D3-5", 20},
+    {"D3-5", "B1", 100},
+    {"B1", "TC", 200},
+    {"D3", "D7", 100},
+    {"D3", "ThuVien", 40},
+    {"ThuVien", "D7", 20},
 };
 int so_canh = sizeof(ds_canh) / sizeof(Canh);
 
@@ -307,7 +297,7 @@ int main() {
     
     Dothi *doThi = createDothi(soDinh);
     char nguon[20], dich[20];
-    int lc, lc1;
+    int lc1;
 
     
     while(1){
@@ -354,26 +344,22 @@ int main() {
                 printf("Duong di ngan nhat tu %s den %s la: ", nguon, dich);
                 inDuongDi(parent, dinhDich, tenToaNha);
                 printf("\nTong khoang cach: %d met\n", khoangCach[dinhDich]);
-                if(nguon == "TC" && dich == "D3"){
+                if(strcmp(nguon,"TC") == 0 && strcmp(dich,"D3") == 0){
                     system("start TCdenD3.png");
-                }
-                else if(nguon == "TC" && dich == "C2"){
-                    // goi anh
-                }
-                else if(nguon == "TC" && dich == "D9"){
-                    // goi anh
-                }
+                } 
                 // Hút sạch ký tự newline còn sót lại trong bộ đệm trước khi đợi Enter
-                int c;
+                char c;
                 while ((c = getchar()) != '\n' && c != EOF);
-
-                printf("Nhan Enter de dong chuong trinh...\n");
-                getchar();  // Nhan enter de ket thuc duong di nay
+                    printf("Nhan Enter de dong chuong trinh...\n");
+                getchar();  // Nhan enter de dung
             }
 
             free(khoangCach);
             free(parent);
             // Giai phong vung nho de bat dau nhap do thi lan nua
+        }
+        else if( lc1 != 0 || lc1 != 1){
+            printf("Vui long nhap lai!\n");
         }
         else if(lc1 == 0){
             break;  
