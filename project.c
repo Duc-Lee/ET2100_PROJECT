@@ -70,7 +70,7 @@ struct min_heap{
     int kich_thuoc;       // so luong phan tu hien tai
     int suc_chua;         // suc chua toi da
     int *vitri;           // vi tri dinh trong min heap
-    node_min_heap **arr;  // mang 2 chieu 
+    node_min_heap **arr;  // mang tro den cac node trong heap
 };
 typedef struct min_heap min_heap;
 
@@ -291,7 +291,7 @@ int timIndex(char* tenToaNha[], int soDinh, const char* toa) {
 
 int main() {
     char *tenToaNha[] = {
-        "D3", "D3-5", "D5", "D7", "D9", "B1", "C7", "C2", "TC", "B3", "ThuVien"
+        "D3", "D3-5", "D7", "B1", "TC", "ThuVien"
     };
     int soDinh = sizeof(tenToaNha) / sizeof(tenToaNha[0]);
     
@@ -344,10 +344,67 @@ int main() {
                 printf("Duong di ngan nhat tu %s den %s la: ", nguon, dich);
                 inDuongDi(parent, dinhDich, tenToaNha);
                 printf("\nTong khoang cach: %d met\n", khoangCach[dinhDich]);
-                if(strcmp(nguon,"TC") == 0 && strcmp(dich,"D3") == 0){
-                    system("start TCdenD3.png");
-                } 
-                // Hút sạch ký tự newline còn sót lại trong bộ đệm trước khi đợi Enter
+                // TC <-> D3
+                if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"TC")){
+                    system("python picture.py");
+                }
+                // TC <-> B1
+                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"B1") == 0 ) || (nguon,"B1") == 0 && strcmp(dich,"TC")){
+                    system("python picture.py");
+                }
+                // TC <-> D3-5
+                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D3-5") == 0 ) || (nguon,"D3-5") == 0 && strcmp(dich,"TC")){
+                    system("python picture.py");
+                }
+                // TC <-> ThuVien
+                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"TC")){
+                    system("python picture.py");
+                }
+                // TC <-> D7
+                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"TC")){
+                    system("python picture.py");
+                }
+                // B1 <-> D35
+                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D3-5") == 0 ) || (nguon,"D3-5") == 0 && strcmp(dich,"B1")){
+                    system("python picture.py");
+                }
+                // B1 <-> D3
+                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"B1")){
+                    system("python picture.py");
+                }
+                // B1 <-> ThuVien
+                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"B1")){
+                    system("python picture.py");
+                }
+                // B1 <-> D7
+                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"B1")){
+                    system("python picture.py");
+                }
+                // B3-5 <-> D3
+                else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"D3-5")){
+                    system("python picture.py");
+                }
+                // B3-5 <-> ThuVien
+                else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"B3-5")){
+                    system("python picture.py");
+                }
+                // B3-5 <-> D7
+                else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"D3-5")){
+                    system("python picture.py");
+                }
+                // D3 <-> ThuVien
+                else if((strcmp(nguon,"ThuVien") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"ThuVien")){
+                    system("python picture.py");
+                }
+                // D3 <-> D7
+                else if((strcmp(nguon,"D7") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"D7")){
+                    system("python picture.py");
+                }
+                // ThuVien <-> D7
+                else if((strcmp(nguon,"ThuVien") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"D7")){
+                    system("python picture.py");
+                }
+                // Dọn sạch ký tự newline còn sót lại trong bộ đệm trước khi đợi Enter
                 char c;
                 while ((c = getchar()) != '\n' && c != EOF);
                     printf("Nhan Enter de dong chuong trinh...\n");
