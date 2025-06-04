@@ -346,7 +346,9 @@ int main() {
                 printf("\nTong khoang cach: %d met\n", khoangCach[dinhDich]);
                 // TC <-> D3
                 if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"TC")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // TC <-> B1
                 else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"B1") == 0 ) || (nguon,"B1") == 0 && strcmp(dich,"TC")){

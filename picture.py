@@ -7,7 +7,7 @@ pygame.init()
 nguon = sys.argv[1]
 dich = sys.argv[2]
 
-# Ví dụ: ánh xạ cặp thành ảnh
+# Ánh xạ cặp thành ảnh
 if (nguon == "TC" and dich == "D3") or (nguon == "D3" and dich == "TC"):
     image_file = "TCdenD3.png"
 elif (nguon == "B1" and dich == "D3-5") or (nguon == "D3-5" and dich == "B1"):
