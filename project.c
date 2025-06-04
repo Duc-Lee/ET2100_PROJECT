@@ -352,59 +352,87 @@ int main() {
                 }
                 // TC <-> B1
                 else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"B1") == 0 ) || (nguon,"B1") == 0 && strcmp(dich,"TC")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // TC <-> D3-5
                 else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D3-5") == 0 ) || (nguon,"D3-5") == 0 && strcmp(dich,"TC")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // TC <-> ThuVien
                 else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"TC")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // TC <-> D7
                 else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"TC")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B1 <-> D35
                 else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D3-5") == 0 ) || (nguon,"D3-5") == 0 && strcmp(dich,"B1")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B1 <-> D3
                 else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"B1")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B1 <-> ThuVien
                 else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"B1")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B1 <-> D7
                 else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"B1")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B3-5 <-> D3
                 else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"D3-5")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B3-5 <-> ThuVien
                 else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"B3-5")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // B3-5 <-> D7
                 else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"D3-5")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // D3 <-> ThuVien
                 else if((strcmp(nguon,"ThuVien") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"ThuVien")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // D3 <-> D7
                 else if((strcmp(nguon,"D7") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"D7")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // ThuVien <-> D7
                 else if((strcmp(nguon,"ThuVien") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"D7")){
-                    system("python picture.py");
+                    char command[200];
+                    sprintf(command, "python picture.py %s %s", nguon, dich);
+                    system(command);
                 }
                 // Dọn sạch ký tự newline còn sót lại trong bộ đệm trước khi đợi Enter
                 char c;
