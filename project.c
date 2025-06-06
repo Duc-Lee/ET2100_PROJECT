@@ -299,16 +299,15 @@ int main() {
     char nguon[20], dich[20];
     int lc1;
 
-    
-    while(1){
+    while (1) {
         printf("---- Duong di ngan nhat -------\n");
         printf("1. Nhap vi tri cac toa\n");
         printf("0. Ket thuc chuong trinh\n");
         printf("Chon: ");
         scanf("%d", &lc1);
 
-        if(lc1 == 1 ){
-            // Thêm các cạnh vào đồ thị dựa trên ds_canh
+        if (lc1 == 1) {
+            // Thêm các cạnh vào đồ thị
             for (int i = 0; i < so_canh; i++) {
                 int u = timIndex(tenToaNha, soDinh, ds_canh[i].toa1);
                 int v = timIndex(tenToaNha, soDinh, ds_canh[i].toa2);
@@ -344,116 +343,42 @@ int main() {
                 printf("Duong di ngan nhat tu %s den %s la: ", nguon, dich);
                 inDuongDi(parent, dinhDich, tenToaNha);
                 printf("\nTong khoang cach: %d met\n", khoangCach[dinhDich]);
-                // TC <-> D3
-                if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"TC")){
+
+                // Nếu 2 tòa nhà nằm trong danh sách tenToaNha thì gọi Python
+                int canRunPython = 0;
+                for (int i = 0; i < soDinh; i++) {
+                    if (strcmp(nguon, tenToaNha[i]) == 0 || strcmp(dich, tenToaNha[i]) == 0) {
+                        canRunPython = 1;
+                        break;
+                    }
+                }
+                if (canRunPython) {
                     char command[200];
                     sprintf(command, "python picture.py %s %s", nguon, dich);
                     system(command);
                 }
-                // TC <-> B1
-                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"B1") == 0 ) || (nguon,"B1") == 0 && strcmp(dich,"TC")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // TC <-> D3-5
-                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D3-5") == 0 ) || (nguon,"D3-5") == 0 && strcmp(dich,"TC")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // TC <-> ThuVien
-                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"TC")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // TC <-> D7
-                else if((strcmp(nguon,"TC") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"TC")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B1 <-> D35
-                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D3-5") == 0 ) || (nguon,"D3-5") == 0 && strcmp(dich,"B1")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B1 <-> D3
-                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"B1")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B1 <-> ThuVien
-                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"B1")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B1 <-> D7
-                else if((strcmp(nguon,"B1") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"B1")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B3-5 <-> D3
-                else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"D3-5")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B3-5 <-> ThuVien
-                else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"ThuVien") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"B3-5")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // B3-5 <-> D7
-                else if((strcmp(nguon,"D3-5") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"D7") == 0 && strcmp(dich,"D3-5")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // D3 <-> ThuVien
-                else if((strcmp(nguon,"ThuVien") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"ThuVien")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // D3 <-> D7
-                else if((strcmp(nguon,"D7") == 0 && strcmp(dich,"D3") == 0 ) || (nguon,"D3") == 0 && strcmp(dich,"D7")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // ThuVien <-> D7
-                else if((strcmp(nguon,"ThuVien") == 0 && strcmp(dich,"D7") == 0 ) || (nguon,"ThuVien") == 0 && strcmp(dich,"D7")){
-                    char command[200];
-                    sprintf(command, "python picture.py %s %s", nguon, dich);
-                    system(command);
-                }
-                // Dọn sạch ký tự newline còn sót lại trong bộ đệm trước khi đợi Enter
-                char c;
-                while ((c = getchar()) != '\n' && c != EOF);
-                    printf("Nhan Enter de dong chuong trinh...\n");
-                getchar();  // Nhan enter de dung
             }
 
             free(khoangCach);
             free(parent);
-            // Giai phong vung nho de bat dau nhap do thi lan nua
-        }
-        else if( lc1 != 0 || lc1 != 1){
+
+            // Dọn sạch ký tự newline còn sót lại trong bộ đệm
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            printf("Nhan Enter de dong chuong trinh...\n");
+            getchar();
+        } 
+        else if (lc1 == 0) {
+            break;
+        } 
+        else {
             printf("Vui long nhap lai!\n");
         }
-        else if(lc1 == 0){
-            break;  
-        }
     }
-    giaiPhongDoThi(doThi); // Giải phóng đồ thị khi thoát chương trình
+
+    giaiPhongDoThi(doThi);
+    return 0;
 }
-       
+
 
    
