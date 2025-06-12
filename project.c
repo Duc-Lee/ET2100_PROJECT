@@ -116,10 +116,13 @@ void shiftDown(min_heap *minheap, int idx) {
     if (phai < minheap->kich_thuoc &&
         minheap->arr[phai]->khoang_cach < minheap->arr[nho_nhat]->khoang_cach)
         nho_nhat = phai;
-
+    
+    // Nếu có 1 con nho hơn cha cần hoán đổi
     if (nho_nhat != idx) {
         // Cap nhat vi tri
+        // Dinh moi dang o vi tri index
         minheap->vitri[minheap->arr[nho_nhat]->dinh] = idx;
+        // Dinh moi dang o vi tri nho_nhat
         minheap->vitri[minheap->arr[idx]->dinh] = nho_nhat;
 
         // Thuc hien hoan doi
@@ -194,35 +197,43 @@ void dijkstra(Dothi* doThi, int dinhNguon, int khoangCach[], int parent[]) {
     int soDinh = doThi->so_dinh;
     min_heap* minHeap = taoMinHeap(soDinh);
 
+    // Khởi tạo khoảng cách và cha cho mỗi đỉnh
     for (int v = 0; v < soDinh; v++) {
         khoangCach[v] = INT_MAX;
         parent[v] = -1;
         minHeap->arr[v] = taoNodeMinHeap(v, khoangCach[v]);
         minHeap->vitri[v] = v;
     }
+
+    // Khoảng cách từ nguồn đến chính nó là 0
     khoangCach[dinhNguon] = 0;
     decreaseKey(minHeap, dinhNguon, khoangCach[dinhNguon]);
     minHeap->kich_thuoc = soDinh;
 
+    // Lặp cho đến khi heap rỗng
     while (!isEmpty(minHeap)) {
+        // Lấy đỉnh có khoảng cách nhỏ nhất
         node_min_heap* nodeMin = extractMin(minHeap);
         int u = nodeMin->dinh;
-        free(nodeMin); // Giải phóng node sau khi lấy ra khỏi heap
+        free(nodeMin); // Giải phóng bộ nhớ
 
+        // Duyệt các đỉnh kề của u
         node* ke = doThi->danh_sach_ke[u];
         while (ke != NULL) {
             int v = ke->dinh;
+
+            // Cập nhật khoảng cách nếu tìm được đường đi ngắn hơn
             if (isInMinHeap(minHeap, v) && khoangCach[u] != INT_MAX &&
-                ke->trong_so + khoangCach[u] < khoangCach[v]) {
+                khoangCach[u] + ke->trong_so < khoangCach[v]) {
                 khoangCach[v] = khoangCach[u] + ke->trong_so;
-                parent[v] = u; // Cập nhật đỉnh cha của v là u
+                parent[v] = u;
                 decreaseKey(minHeap, v, khoangCach[v]);
             }
             ke = ke->next;
         }
     }
 
-    giaiPhongMinHeap(minHeap); // Giải phóng MinHeap sau khi sử dụng xong
+    giaiPhongMinHeap(minHeap); // Giải phóng bộ nhớ heap
 }
 
 // Hàm in đường đi (đệ quy)
@@ -233,6 +244,19 @@ void inDuongDi(int parent[], int j, char* tenToaNha[]) {
     }
     inDuongDi(parent, parent[j], tenToaNha);
     printf(" -> %s", tenToaNha[j]);
+}
+
+// In danh sach dinh ke 
+void inDanhSachKe(Dothi *dothi, char *tenToaNha[]) {
+    for (int i = 0; i < dothi->so_dinh; i++) {
+        printf("%s: ", tenToaNha[i]);
+        node *hienTai = dothi->danh_sach_ke[i];
+        while (hienTai != NULL) {
+            printf("-> %s (w=%d) ", tenToaNha[hienTai->dinh], hienTai->trong_so);
+            hienTai = hienTai->next;
+        }
+        printf("\n");
+    }
 }
 
 //-------------------- Giai phong vung nho------------//
@@ -290,24 +314,28 @@ int timIndex(char* tenToaNha[], int soDinh, const char* toa) {
 }
 
 int main() {
+    // Danh sách tên các tòa nhà
     char *tenToaNha[] = {
         "D3", "D3-5", "D7", "B1", "TC", "ThuVien"
     };
     int soDinh = sizeof(tenToaNha) / sizeof(tenToaNha[0]);
-    
+
+    // Khởi tạo đồ thị
     Dothi *doThi = createDothi(soDinh);
     char nguon[20], dich[20];
     int lc1;
 
     while (1) {
+        // Menu chính
         printf("---- Duong di ngan nhat -------\n");
         printf("1. Nhap vi tri cac toa\n");
+        printf("2. In danh sach dinh ke\n");
         printf("0. Ket thuc chuong trinh\n");
         printf("Chon: ");
         scanf("%d", &lc1);
 
         if (lc1 == 1) {
-            // Thêm các cạnh vào đồ thị
+            // Thêm các cạnh từ danh sách ds_canh
             for (int i = 0; i < so_canh; i++) {
                 int u = timIndex(tenToaNha, soDinh, ds_canh[i].toa1);
                 int v = timIndex(tenToaNha, soDinh, ds_canh[i].toa2);
@@ -318,11 +346,13 @@ int main() {
                 }
             }
 
+            // Nhập tên đỉnh nguồn và đỉnh đích
             printf("Nhap ten dinh nguon: ");
             scanf("%s", nguon);
             printf("Nhap ten dinh dich: ");
             scanf("%s", dich);
 
+            // Tìm chỉ số tương ứng trong danh sách tên
             int dinhNguon = timIndex(tenToaNha, soDinh, nguon);
             int dinhDich = timIndex(tenToaNha, soDinh, dich);
 
@@ -332,19 +362,22 @@ int main() {
                 return 1;
             }
 
+            // Cấp phát mảng khoảng cách và cha
             int *khoangCach = (int *)malloc(soDinh * sizeof(int));
             int *parent = (int *)malloc(soDinh * sizeof(int));
 
+            // Chạy thuật toán Dijkstra
             dijkstra(doThi, dinhNguon, khoangCach, parent);
 
             if (khoangCach[dinhDich] == INT_MAX) {
                 printf("Khong co duong di tu %s den %s\n", nguon, dich);
             } else {
+                // In đường đi và khoảng cách ngắn nhất
                 printf("Duong di ngan nhat tu %s den %s la: ", nguon, dich);
                 inDuongDi(parent, dinhDich, tenToaNha);
                 printf("\nTong khoang cach: %d met\n", khoangCach[dinhDich]);
 
-                // Nếu 2 tòa nhà nằm trong danh sách tenToaNha thì gọi Python
+                // Nếu nguồn hoặc đích có trong danh sách tên thì gọi Python vẽ hình
                 int canRunPython = 0;
                 for (int i = 0; i < soDinh; i++) {
                     if (strcmp(nguon, tenToaNha[i]) == 0 || strcmp(dich, tenToaNha[i]) == 0) {
@@ -352,6 +385,8 @@ int main() {
                         break;
                     }
                 }
+
+                // Gọi file Python để hiển thị hình ảnh minh họa đường đi
                 if (canRunPython) {
                     char command[200];
                     sprintf(command, "python picture.py %s %s", nguon, dich);
@@ -361,24 +396,22 @@ int main() {
 
             free(khoangCach);
             free(parent);
-
-            // Dọn sạch ký tự newline còn sót lại trong bộ đệm
-            int c;
-            while ((c = getchar()) != '\n' && c != EOF);
-            printf("Nhan Enter de dong chuong trinh...\n");
             getchar();
         } 
+        else if (lc1 == 2) {
+            printf("\nDANH SACH KE CUA DO THI:\n");
+            inDanhSachKe(doThi, tenToaNha);
+            printf("\n");
+        }
+
         else if (lc1 == 0) {
-            break;
+            break; // Thoát chương trình
         } 
         else {
             printf("Vui long nhap lai!\n");
         }
     }
 
-    giaiPhongDoThi(doThi);
+    giaiPhongDoThi(doThi); // Giải phóng bộ nhớ đồ thị
     return 0;
 }
-
-
-   
