@@ -13,7 +13,7 @@ struct node{
 typedef struct node node;
 
 // Ham tao node moi 
-node *createnode(int dinh, int trong_so){
+node *createnode(int dinh, int trong_so){/*  */
     // Cap phat dong cho node moi
     node *newnode = (node*)malloc(sizeof(node));
     // Gan cac gia tri cho node moi
@@ -236,24 +236,16 @@ void dijkstra(Dothi* doThi, int dinhNguon, int khoangCach[], int parent[]) {
     giaiPhongMinHeap(minHeap); // Giải phóng bộ nhớ heap
 }
 
-// Hàm in đường đi (đệ quy)
-void inDuongDi(int parent[], int j, char* tenToaNha[]) {
-    if (parent[j] == -1) {
-        printf("%s", tenToaNha[j]);
-        return;
-    }
-    inDuongDi(parent, parent[j], tenToaNha);
-    printf(" -> %s", tenToaNha[j]);
-}
+
 
 // In danh sach dinh ke 
 void inDanhSachKe(Dothi *dothi, char *tenToaNha[]) {
     for (int i = 0; i < dothi->so_dinh; i++) {
         printf("%s: ", tenToaNha[i]);
-        node *hienTai = dothi->danh_sach_ke[i];
-        while (hienTai != NULL) {
-            printf("-> %s (w=%d) ", tenToaNha[hienTai->dinh], hienTai->trong_so);
-            hienTai = hienTai->next;
+        node *head = dothi->danh_sach_ke[i];
+        while (head != NULL) {
+            printf("-> %s (w=%d) ", tenToaNha[head->dinh], head->trong_so);
+            head = head->next;
         }
         printf("\n");
     }
@@ -290,6 +282,7 @@ Canh ds_canh[] = {
     {"D3", "D7", 100},
     {"D3", "ThuVien", 40},
     {"ThuVien", "D7", 20},
+    {"D3-5", "D7", 90}
 };
 int so_canh = sizeof(ds_canh) / sizeof(Canh);
 
@@ -313,6 +306,74 @@ int timIndex(char* tenToaNha[], int soDinh, const char* toa) {
     return -1; // Khong tim thay
 }
 
+/// ---------- In duong di bat ki --------------///
+
+// Hàm in đường đi (đệ quy)
+void inDuongDi(int parent[], int j, char* tenToaNha[]) {
+    if (parent[j] == -1) {
+        printf("%s", tenToaNha[j]);
+        return;
+    }
+    inDuongDi(parent, parent[j], tenToaNha);
+    printf(" -> %s", tenToaNha[j]);
+}
+
+// Tim duong di 
+int timduong(Dothi *dothi, int nguon, int dich, int *parent, int *visited) {
+    visited[nguon] = 1;  // danh dau da tham
+    node *ke = dothi->danh_sach_ke[nguon];
+    while(ke != NULL) {
+        int v = ke->dinh;
+        if(!visited[v]) {  // neu chua tham
+            // luu dinh cha
+            parent[v] = nguon;  
+            if(v == dich || timduong(dothi, v, dich, parent, visited)) {
+                // Neu tim thay duong thi tra ve 1
+                return 1;  
+            }
+        }
+        ke = ke->next;  
+    }
+    return 0;  
+}
+
+void induongdibatki(Dothi *dothi, char *tenToaNha[], int soDinh) {
+    char nguon[20];
+    char dich[20];
+    printf("Nhap toa nha nguon: ");
+    scanf("%s", nguon);
+    printf("Nhap toa nha dich: ");
+    scanf("%s", dich);
+    
+    // Tìm chỉ số tương ứng trong danh sách tên
+    int dinhNguon = timIndex(tenToaNha, soDinh, nguon);
+    int dinhDich = timIndex(tenToaNha, soDinh, dich);
+    
+    // Check out put
+    if(dinhNguon == -1 || dinhDich == -1) {
+        printf("Toa nha khong ton tai trong danh sach!\n");
+        return;
+    }
+
+    int *visited = (int*)calloc(soDinh, sizeof(int));
+    int *parent = (int*)malloc(soDinh * sizeof(int));
+    
+    // Danh dau cac dinh bag -1 het la chua tham
+    for(int i = 0; i < soDinh; i++) {
+        parent[i] = -1;
+    }
+    
+    if(timduong(dothi, dinhNguon, dinhDich, parent, visited)) {
+        printf("Duong di bat ki: ");
+        inDuongDi(parent, dinhDich, tenToaNha);
+        printf("\n");
+    } else {
+        printf("Khong tim thay duong di!\n");
+    }
+    free(visited);
+    free(parent);
+}
+
 int main() {
     // Danh sách tên các tòa nhà
     char *tenToaNha[] = {
@@ -330,6 +391,7 @@ int main() {
         printf("---- Duong di ngan nhat -------\n");
         printf("1. Nhap vi tri cac toa\n");
         printf("2. In danh sach dinh ke\n");
+        printf("3. In duong di bat ki\n");
         printf("0. Ket thuc chuong trinh\n");
         printf("Chon: ");
         scanf("%d", &lc1);
@@ -403,7 +465,19 @@ int main() {
             inDanhSachKe(doThi, tenToaNha);
             printf("\n");
         }
+        else if(lc1 == 3){
+            // Thêm các cạnh từ danh sách ds_canh
+            for (int i = 0; i < so_canh; i++) {
+                int u = timIndex(tenToaNha, soDinh, ds_canh[i].toa1);
+                int v = timIndex(tenToaNha, soDinh, ds_canh[i].toa2);
+                int trong_so = ds_canh[i].khoang_cach;
 
+                if (u != -1 && v != -1) {
+                    them_canh(doThi, u, v, trong_so);
+                }
+            }
+           induongdibatki(doThi,tenToaNha,soDinh);
+        }
         else if (lc1 == 0) {
             break; // Thoát chương trình
         } 
